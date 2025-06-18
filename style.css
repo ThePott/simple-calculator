@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 20px;
 }
 
 /* HTML과 Body의 기본 설정 */
@@ -58,7 +57,16 @@ div#app-boundary header#task-bar button:nth-child(3) {
 
 div#app-boundary section#display {
     background-color: lightgreen;
-    height: 100px
+    height: 100px;
+    
+    font-size: 40px;
+    font-weight: 600;
+    color: white;
+    
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 8px;
 }
 
 div#app-boundary section#buttons {
@@ -74,6 +82,9 @@ div#app-boundary section#buttons button {
     flex-basis: 48px;
     height: 48px;
     border-radius: 24px;
+
+    font-size: 20px;
+    font-weight: 500;
 
     border: none;
     background-color: lightblue;
