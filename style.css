@@ -1,0 +1,95 @@
+/* 모든 요소의 기본 여백 제거 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+/* HTML과 Body의 기본 설정 */
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: aquamarine;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div#app-boundary {
+    width: calc(48px * 4 + 8px * 5);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+
+    background-color: gray;
+}
+
+div#app-boundary header#task-bar {
+    background-color: lightcoral;
+
+    display: flex;
+    gap: 8px;
+}
+
+div#app-boundary header#task-bar button {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    border: none;
+}
+
+div#app-boundary header#task-bar button:nth-child(1) {
+    background-color: red;
+}
+
+div#app-boundary header#task-bar button:nth-child(2) {
+    background-color: yellow;
+}
+
+div#app-boundary header#task-bar button:nth-child(3) {
+    background-color: green;
+}
+
+div#app-boundary section#display {
+    background-color: lightgreen;
+    height: 100px
+}
+
+div#app-boundary section#buttons {
+    background-color: lightskyblue;
+    flex-grow: 1;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+div#app-boundary section#buttons button {
+    flex-basis: 48px;
+    height: 48px;
+    border-radius: 24px;
+
+    border: none;
+    background-color: lightblue;
+    color: white;
+
+}
+
+div#app-boundary section#buttons button.zero {
+    flex-basis: calc(48px * 2 + 8px);
+}
+
+div#app-boundary section#buttons button:hover {
+    background-color: lightcyan;
+    color: darkslateblue;
+}
+div#app-boundary section#buttons button:active {
+    background-color: lightyellow;
+    color: darkslateblue;
+}
