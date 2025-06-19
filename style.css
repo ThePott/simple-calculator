@@ -67,6 +67,8 @@ div#app-boundary section#display {
     align-items: center;
     flex-direction: row-reverse;
     padding: 8px;
+
+    overflow: hidden;
 }
 
 div#app-boundary section#buttons {
