@@ -10,6 +10,8 @@ const functionButtonMany = document.querySelectorAll(".function")
 
 const operatorButtonMany = document.querySelectorAll(".operator")
 
+const equalButton = document.querySelector(".equal-sign")
+
 
 const operation = {
     previousResult: null,
@@ -18,47 +20,78 @@ const operation = {
     secondOperandInString: null,
 
     calc() {
-        let result;
+        const displayText = this.getCurrentlyDisplayedText()
+        if (displayText.at(-1) === ".") {
+            console.error("---- nahh can't end with .")
+            return
+        }
+
+        const firstInNumber = Number(this.firstOperandInString)
+        const secondInNumber = Number(this.secondOperandInString)
+        let resultInNumber;
         switch (this.operactor) {
             case "+":
-                result = this.firstOperandInString + this.secondOperandInString
+                resultInNumber = firstInNumber + secondInNumber
                 break
             case "-":
-                result = this.firstOperandInString - this.secondOperandInString
+                resultInNumber = firstInNumber - secondInNumber
                 break
             case "/":
-                const dividedResult = this.firstOperandInString / this.secondOperandInString
+                const dividedResult = firstInNumber / secondInNumber
                 const roundedResult = Math.round(dividedResult * 10000) / 10000
-                result = roundedResult
+                resultInNumber = roundedResult
                 break
             case "*":
-                result = this.firstOperandInString * this.secondOperandInString
+                resultInNumber = firstInNumber * secondInNumber
             default:
                 console.error("---- UNEXPECTED ERROR")
         }
+        this.secondOperandInString = null
         this.operactor = null
-        localDisplay.updateDisplay(result.toString())
+        this.handleNewText(resultInNumber.toString())
     },
 
     pend(operatorText) {
-        console.log("pending operator:", operatorText)
+        const displayText = this.getCurrentlyDisplayedText()
+        // TODO .으로 끝날 때 핸들링해야 함
+        // if (displayText.at(-1) === ".") { 
+        //     displayText = displayText.replace(".", "")
+        //     console.log("----displaytext:", displayText)
+        // }
+
         // operation.firstOperandInString = localDisplay.currentDisplayText
         operation.operactor = operatorText
     },
 
     getCurrentlyDisplayedText() {
         if (!this.firstOperandInString) { return "0" }
-        if (!this.operactor) { return this.firstOperandInString.toString() }
+        if (!this.operactor) {
 
-        return this.secondOperandInString.toString()
+            return this.firstOperandInString
+        }
+
+        return this.secondOperandInString
     },
 
     handleNewText(newText) {
         if (!this.operactor) {
-            console.log("---- im here")
             this.firstOperandInString = newText
-            display.innerText = newText
+        } else {
+            this.secondOperandInString = newText
         }
+
+        display.innerText = newText
+
+
+    },
+
+    reset() {
+        this.previousResult = null
+        this.firstOperandInString = null
+        this.operactor = null
+        this.secondOperandInString = null
+
+        display.innerText = "0"
     }
 }
 
@@ -69,7 +102,8 @@ for (const button of numberButtonArray) {
     button.addEventListener("click", () => {
         const displayText = operation.getCurrentlyDisplayedText()
 
-        if (displayText === "0") {
+        // 맨 처음엔
+        if (!displayText || displayText === "0") {
             const newText = buttonText
             operation.handleNewText(newText)
             return
@@ -107,12 +141,10 @@ for (const button of functionButtonMany) {
     let eventListener;
     switch (buttonText) {
         case "C":
-            eventListener = () => {
-                localDisplay.updateDisplay("0")
-            }
+            eventListener = () => operation.reset()
             break
         default:
-            eventListener = () => console.log("---- not specified button")
+            eventListener = () => console.error("---- not specified button")
     }
     button.addEventListener("click", eventListener)
 }
@@ -122,9 +154,6 @@ for (const button of operatorButtonMany) {
     let eventListener;
 
     switch (buttonText) {
-        case "=":
-            eventListener = () => operation.calc()
-            break
         case "+":
         case "-":
         case "*":
@@ -138,4 +167,7 @@ for (const button of operatorButtonMany) {
     button.addEventListener("click", eventListener)
 }
 
+equalButton.addEventListener("click", () => {
+    operation.calc()
+})
 
