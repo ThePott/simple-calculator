@@ -12,10 +12,8 @@ const operatorButtonMany = document.querySelectorAll(".operator")
 
 const equalButton = document.querySelector(".equal-sign")
 
-// 
-
 const operation = {
-    previousResult: null,
+    // previousResult: null,
     firstOperandInString: null,
     operactor: null,
     secondOperandInString: null,
@@ -23,12 +21,15 @@ const operation = {
     trimDisplayText() {
         const displayText = this.getCurrentlyDisplayedText()
 
-        if (!displayText) { return }
+        if (!displayText) { return null }
 
         if (displayText.at(-1) === ".") {
             const newText = displayText.replace(".", "")
             this.handleNewText(newText)
+            return newText
         }
+
+        return displayText
     },
 
     calc() {
@@ -60,20 +61,41 @@ const operation = {
 
         this.secondOperandInString = null
         this.operactor = null
-        this.handleNewText(resultInNumber.toString())
+
+        const roundedNumber = Math.round(resultInNumber * 10000) / 10000
+        this.handleNewText(roundedNumber.toString())
+    },
+
+    convert(functionText) {
+        const displayText = this.trimDisplayText()
+        switch (functionText) {
+            case "±":
+                const reversedNumber = -1 * Number(displayText)
+
+                this.handleNewText(reversedNumber.toString())
+                break
+            case "%":
+                const displayTextB = this.trimDisplayText()
+                const percentToDecimalNumber = 0.01 * Number(displayTextB)
+
+                this.handleNewText(percentToDecimalNumber.toString())
+                break
+            default:
+                console.error("---- no such function handled:", functionText, )
+        }
     },
 
     pend(operatorText) {
         this.trimDisplayText()
 
-        operation.operactor = operatorText
+        if (!this.secondOperandInString) {
+            operation.operactor = operatorText
+            return
+        }
 
-        if (!this.secondOperandInString) { return }
-        this.calc(operatorText)
+        this.calc()
         this.operactor = operatorText
     },
-
-    
 
     getCurrentlyDisplayedText() {
         if (!this.firstOperandInString) { return "0" }
@@ -122,23 +144,15 @@ for (const button of numberButtonArray) {
 }
 
 dotButton.addEventListener("click", () => {
-    // const sampleText = "123.09+0.789-123"
-    const displayText = display.innerText
-    const lastChar = displayText.at(-1)
-    const lastCharInNumber = Number(lastChar)
-
-    if (lastChar === ".") { return }
-
-    // 앞이 연산 기호면 0. 붙임
-    if (Number.isNaN(lastCharInNumber)) {
-        const newText = `${displayText}0.`
-        operation.handleNewText(newText)
+    const displayText = operation.getCurrentlyDisplayedText()
+    
+    // operator exists, secondOperand null
+    if (!displayText) {
+        operation.handleNewText("0.")
         return
     }
 
-    // 앞이 숫자
-    const splitedArray = displayText.split(/[^0-9.]/)
-    if (splitedArray.at(-1).includes(".")) { return }
+    if (displayText.includes(".")) { return }
 
     operation.handleNewText(`${displayText}.`)
 })
@@ -149,6 +163,10 @@ for (const button of functionButtonMany) {
     switch (buttonText) {
         case "C":
             eventListener = () => operation.reset()
+            break
+        case "%":
+        case "±":
+            eventListener = () => operation.convert(buttonText)
             break
         default:
             eventListener = () => console.error("---- not specified button")
