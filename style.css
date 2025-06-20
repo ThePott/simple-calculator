@@ -102,13 +102,16 @@ div#app-boundary section#buttons button.zero {
 }
 
 div#app-boundary section#buttons button:hover {
-    background-color: lightcyan;
-    color: darkslateblue;
+    background-color: #2E383C;
 }
 div#app-boundary section#buttons button:active {
-    background-color: lightyellow;
-    color: darkslateblue;
+    background-color: #1E2326;
 }
+
+/* visual candy */
+/* div#app-boundary section#visual-candy-section {
+
+} */
 
 /* animation */
 .scaled-drop {
@@ -150,3 +153,4 @@ div#app-boundary section#buttons button:active {
         opacity: 100%;
     }
 }
+
