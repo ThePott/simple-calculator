@@ -12,6 +12,9 @@ const operatorButtonMany = document.querySelectorAll(".operator")
 
 const equalButton = document.querySelector(".equal-sign")
 
+// 뭘 해야하는 거야
+// 2 + 2 + 2
+// 이미 
 
 const operation = {
     previousResult: null,
@@ -43,21 +46,26 @@ const operation = {
                 break
             case "*":
                 resultInNumber = firstInNumber * secondInNumber
+                break
             default:
-                console.error("---- UNEXPECTED ERROR")
+                console.error("---- UNEXPECTED ERROR:", this.operactor)
         }
+
         this.secondOperandInString = null
         this.operactor = null
         this.handleNewText(resultInNumber.toString())
     },
 
+
     pend(operatorText) {
         const displayText = this.getCurrentlyDisplayedText()
-        // TODO .으로 끝날 때 핸들링해야 함
-        // if (displayText.at(-1) === ".") { 
-        //     displayText = displayText.replace(".", "")
-        //     console.log("----displaytext:", displayText)
-        // }
+
+        if (displayText.at(-1) === ".") {
+            console.log("---- including dot", displayText)
+            // TODO .으로 끝날 때 핸들링해야 함
+            const newText = displayText.replace(".", "")
+            this.handleNewText(newText)
+        }
 
         // operation.firstOperandInString = localDisplay.currentDisplayText
         operation.operactor = operatorText
@@ -94,8 +102,6 @@ const operation = {
         display.innerText = "0"
     }
 }
-
-
 
 for (const button of numberButtonArray) {
     const buttonText = button.innerText
