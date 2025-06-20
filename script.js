@@ -1,14 +1,5 @@
 const display = document.querySelector("#display")
 
-// const buttonMany = document.querySelectorAll(".button")
-// const buttonArray = [...buttonMany]
-
-// const numberButtonArray = buttonArray.filter((button) => {
-//     const classList = button.classList.value
-//     console.log("---- class list:", classList, typeof classList, classList.includes("nat"))
-//     return classList.includes("natural-number") || classList.includes("zero")
-// })
-// const functionButtonArray = buttonArray.filter((button) => button.classList.value.includes("function"))
 const naturalNumberButtonMany = document.querySelectorAll(".natural-number")
 const zeroNumberButton = document.querySelector(".zero")
 const numberButtonArray = [...naturalNumberButtonMany, zeroNumberButton]
@@ -16,18 +7,31 @@ const numberButtonArray = [...naturalNumberButtonMany, zeroNumberButton]
 const functionButtonMany = document.querySelectorAll(".function")
 const dotButton = document.querySelector(".dot")
 
+const localDisplay = {
+    previousDisplayText: "0",
+    currentDisplayText: "0",
+    updateDisplay(newText) {
+        localDisplay.previousDisplayText = localDisplay.currentDisplayText
+        localDisplay.currentDisplayText = newText
+
+        display.innerText = newText
+    }
+}
+
 
 for (const button of numberButtonArray) {
+    const buttonText = button.innerText
     button.addEventListener("click", () => {
-        const buttonText = button.innerText
-        const displayText = display.innerText
+        const displayText = localDisplay.currentDisplayText
 
         if (displayText === "0") {
-            display.innerText = buttonText
+            const newText = buttonText
+            localDisplay.updateDisplay(newText)
             return
         }
 
-        display.innerText = `${displayText}${buttonText}`
+        const newText = `${displayText}${buttonText}`
+        localDisplay.updateDisplay(newText)
     })
 }
 
@@ -37,7 +41,7 @@ for (const button of functionButtonMany) {
     switch (buttonText) {
         case "C":
             eventListener = () => {
-                display.innerText = "0"
+                localDisplay.updateDisplay("0")
             }
             break
         default:
@@ -56,13 +60,13 @@ dotButton.addEventListener("click", () => {
 
     // 앞이 연산 기호면 0. 붙임
     if (Number.isNaN(lastCharInNumber)) {
-        display.innerText = `${displayText}0.`
+        localDisplay.updateDisplay(`${displayText}0.`)
         return
     }
 
     // 앞이 숫자
     const splitedArray = displayText.split(/[^0-9.]/)
     if (splitedArray.at(-1).includes(".")) { return }
-    
-    display.innerText = `${displayText}.`
+
+    localDisplay.updateDisplay(`${displayText}.`)
 })
