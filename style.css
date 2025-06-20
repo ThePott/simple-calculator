@@ -3,6 +3,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+    color: #D3C6AA;
 }
 
 /* HTML과 Body의 기본 설정 */
@@ -12,7 +14,7 @@ html {
 
 body {
     height: 100%;
-    background-color: aquamarine;
+    background-color: #1E2326;
 
     display: flex;
     justify-content: center;
@@ -25,12 +27,13 @@ div#app-boundary {
     flex-direction: column;
     gap: 8px;
     padding: 8px;
+    border-radius: 8px;
 
-    background-color: gray;
+    background-color: #272E33;
 }
 
 div#app-boundary header#task-bar {
-    background-color: lightcoral;
+    /* background-color: lightcoral; */
 
     display: flex;
     gap: 8px;
@@ -44,24 +47,24 @@ div#app-boundary header#task-bar button {
 }
 
 div#app-boundary header#task-bar button:nth-child(1) {
-    background-color: red;
+    background-color: #E67E80;
 }
 
 div#app-boundary header#task-bar button:nth-child(2) {
-    background-color: yellow;
+    background-color: #DBBC7F;
 }
 
 div#app-boundary header#task-bar button:nth-child(3) {
-    background-color: green;
+    background-color: #A7C080;
 }
 
 div#app-boundary section#display {
-    background-color: lightgreen;
+    /* background-color: lightgreen; */
     height: 100px;
     
     font-size: 40px;
     font-weight: 600;
-    color: white;
+    /* color: white; */
     
     display: flex;
     align-items: center;
@@ -72,7 +75,7 @@ div#app-boundary section#display {
 }
 
 div#app-boundary section#buttons {
-    background-color: lightskyblue;
+    /* background-color: lightskyblue; */
     flex-grow: 1;
 
     display: flex;
@@ -89,8 +92,8 @@ div#app-boundary section#buttons button {
     font-weight: 500;
 
     border: none;
-    background-color: lightblue;
-    color: white;
+    background-color: #4F5B58;
+    /* color: white; */
 
 }
 
@@ -105,4 +108,45 @@ div#app-boundary section#buttons button:hover {
 div#app-boundary section#buttons button:active {
     background-color: lightyellow;
     color: darkslateblue;
+}
+
+/* animation */
+.scaled-drop {
+    animation-name: scaled-drop;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(.12,-0.05,.14,1.84);
+}
+
+.blur {
+    animation-name: blur;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(.08,.34,.26,1.11);
+}
+
+@keyframes scaled-drop {
+    from {
+        transform: translateY(-100px);
+        scale: 50%;
+        opacity: 0%;
+    }
+    to {
+        transform: translateY(0);
+        scale: 100%;
+        opacity: 100%;
+    }
+}
+
+@keyframes blur {
+    from {
+        -webkit-filter: blur(50px);
+        transform: translateY(-100px);
+        scale: 110%;
+        opacity: 0%;
+    }
+    to {
+        -webkit-filter: blur(0);
+        transform: translateY(0);
+        scale: 100%;
+        opacity: 100%;
+    }
 }

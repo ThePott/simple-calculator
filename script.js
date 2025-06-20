@@ -12,9 +12,7 @@ const operatorButtonMany = document.querySelectorAll(".operator")
 
 const equalButton = document.querySelector(".equal-sign")
 
-// 뭘 해야하는 거야
-// 2 + 2 + 2
-// 이미 
+// 
 
 const operation = {
     previousResult: null,
@@ -22,12 +20,21 @@ const operation = {
     operactor: null,
     secondOperandInString: null,
 
-    calc() {
+    trimDisplayText() {
         const displayText = this.getCurrentlyDisplayedText()
+
+        if (!displayText) { return }
+
         if (displayText.at(-1) === ".") {
-            console.error("---- nahh can't end with .")
-            return
+            const newText = displayText.replace(".", "")
+            this.handleNewText(newText)
         }
+    },
+
+    calc() {
+        if (!this.secondOperandInString) { return }
+
+        this.trimDisplayText()
 
         const firstInNumber = Number(this.firstOperandInString)
         const secondInNumber = Number(this.secondOperandInString)
@@ -56,25 +63,21 @@ const operation = {
         this.handleNewText(resultInNumber.toString())
     },
 
-
     pend(operatorText) {
-        const displayText = this.getCurrentlyDisplayedText()
+        this.trimDisplayText()
 
-        if (displayText.at(-1) === ".") {
-            console.log("---- including dot", displayText)
-            // TODO .으로 끝날 때 핸들링해야 함
-            const newText = displayText.replace(".", "")
-            this.handleNewText(newText)
-        }
-
-        // operation.firstOperandInString = localDisplay.currentDisplayText
         operation.operactor = operatorText
+
+        if (!this.secondOperandInString) { return }
+        this.calc(operatorText)
+        this.operactor = operatorText
     },
+
+    
 
     getCurrentlyDisplayedText() {
         if (!this.firstOperandInString) { return "0" }
         if (!this.operactor) {
-
             return this.firstOperandInString
         }
 
@@ -89,8 +92,6 @@ const operation = {
         }
 
         display.innerText = newText
-
-
     },
 
     reset() {
