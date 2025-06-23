@@ -7,10 +7,10 @@ const numberButtonArray = [...naturalNumberButtonMany, zeroNumberButton]
 const dotButton = document.querySelector(".dot")
 
 const functionButtonMany = document.querySelectorAll(".function")
-
 const operatorButtonMany = document.querySelectorAll(".operator")
-
 const equalButton = document.querySelector(".equal-sign")
+
+// const visualFlare
 
 const operation = {
     // previousResult: null,

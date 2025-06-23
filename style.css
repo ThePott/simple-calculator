@@ -110,7 +110,8 @@ div#app-boundary section#buttons button:active {
 
 /* visual candy */
 /* div#app-boundary section#visual-candy-section {
-
+    display: flex;
+    
 } */
 
 /* animation */
