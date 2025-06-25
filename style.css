@@ -108,12 +108,6 @@ div#app-boundary section#buttons button:active {
     background-color: #1E2326;
 }
 
-/* visual candy */
-/* div#app-boundary section#visual-candy-section {
-    display: flex;
-    
-} */
-
 /* animation */
 .scaled-drop {
     animation-name: scaled-drop;

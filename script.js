@@ -10,13 +10,21 @@ const functionButtonMany = document.querySelectorAll(".function")
 const operatorButtonMany = document.querySelectorAll(".operator")
 const equalButton = document.querySelector(".equal-sign")
 
-// const visualFlare
 
 const operation = {
     // previousResult: null,
     firstOperandInString: null,
     operactor: null,
     secondOperandInString: null,
+
+    getCurrentlyDisplayedText() {
+        if (!this.firstOperandInString) { return "0" }
+        if (!this.operactor) {
+            return this.firstOperandInString
+        }
+
+        return this.secondOperandInString
+    },
 
     trimDisplayText() {
         const displayText = this.getCurrentlyDisplayedText()
@@ -67,12 +75,17 @@ const operation = {
     },
 
     convert(functionText) {
-        const displayText = this.trimDisplayText()
         switch (functionText) {
             case "±":
-                const reversedNumber = -1 * Number(displayText)
+                const displayTextA = this.getCurrentlyDisplayedText()
 
-                this.handleNewText(reversedNumber.toString())
+                const reversedNumber = -1 * Number(displayTextA)
+                const reversedNumberString = reversedNumber.toString()
+
+                const wasDotted = displayTextA.includes(".")
+                const conditionalDot = wasDotted ? "." : ""
+                
+                this.handleNewText(`${reversedNumberString}${conditionalDot}`)
                 break
             case "%":
                 const displayTextB = this.trimDisplayText()
@@ -95,15 +108,6 @@ const operation = {
 
         this.calc()
         this.operactor = operatorText
-    },
-
-    getCurrentlyDisplayedText() {
-        if (!this.firstOperandInString) { return "0" }
-        if (!this.operactor) {
-            return this.firstOperandInString
-        }
-
-        return this.secondOperandInString
     },
 
     handleNewText(newText) {
@@ -145,7 +149,7 @@ for (const button of numberButtonArray) {
 
 dotButton.addEventListener("click", () => {
     const displayText = operation.getCurrentlyDisplayedText()
-    
+
     // operator exists, secondOperand null
     if (!displayText) {
         operation.handleNewText("0.")
